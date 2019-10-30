@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Flask App</title>
+		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	</head>
+	<body>
+		<div id="header">
+		<div id="logo">
+				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+		</div>
+	</div>
+<div id="leftbar">
+			<ul id="menu-v">
+			<h3>User</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View User</a>
+			</li>
+			
+			<h3>Category</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/category_view">View User</a>
+			</li>
+				<h3>Brand</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+			</li>
+			<h3>Company</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/company_view">View Company</a>
+			</li>
+			<h3>Products</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+			</li>
+			<h3>order</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/order_add">Add order</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/order_view">View order</a>
+			</li>
+			
+		</ul>
+	</div>
+	<div id="rightbar">
+		<h2>Manage Users</h2>
+		
+		<div class="box">
+			<form action= "http://127.0.0.1:5000/company_add" method= "POST">
+			<label for="category_name"><b>Company Name</b></label><br>
+			<input type="text" placeholder="kytics" name="company_name" class="welcome"required><br><br>
+
+			<label for="charge_amount"><b>Charge Amount(%)</b></label><br>
+			<input type="text" placeholder="13" name="charge_amount" class="welcome"required><br><br>
+
+			<label for="vat_charge"><b>Vat Charge(%)</b></label><br>
+			<input type="text" placeholder="10" name="vat_charge" class="welcome"required><br><br>
+
+			<label for="address"><b>Address</b></label><br>
+			<input type="text" placeholder="Behind tanshiq showroom" name="address" class="welcome"required><br><br>
+
+			<label for="phone"><b>Phone</b></label><br>
+			<input type="text" placeholder="7735734422" name="phone" class="welcome"required><br><br>
+
+			<label for="country"><b>Country</b></label><br>
+			<input type="text" placeholder="India" name="country" class="welcome"required><br><br>
+
+			<label for="message"><b>Message</b></label><br>
+			<textarea rows= "4" cols="30" name="message" class="welcome">Simple message
+			
+			</textarea><br><br>
+
+			<label for="currency"><b>Currency</b></label><br>
+			<input type="text" placeholder="INR" name="currency" class="welcome"required><br><br>
+
+			<button type="submit" value="submit">Save Changes</button>
+
+			</form>
+		</div>
+		
+		
+	</body>
+</html>

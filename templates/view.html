@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Flask App</title>
+		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	</head>
+	<body>
+		<div id="header">
+		<div id="logo">
+				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+		</div>
+	</div>
+	<div id="leftbar">
+			<ul id="menu-v">
+			<h3>User</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View User</a>
+			</li>
+			
+			<h3>Category</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Category</a>
+			</li>
+				<h3>Brand</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Brand</a>
+			</li>
+			<h3>Company</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Company</a>
+			</li>
+			<h3>Product</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+			</li>
+			</li>
+			<h3>order</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/order_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/order_view">View Company</a>
+			</li>
+			
+		</ul>
+	</div>
+	<div id="rightbar">
+		<h2>Manage Users</h2>
+	
+			<table id= "records_table" class = "table" border = "1">
+			
+			<tr>
+				
+				<th>Group</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Firstname</th>
+				<th>Lastname</th>
+				<th>Phone</th>
+				<th>Gender</th>
+				<th>Action</th>
+				<th>Action</th>
+
+            </tr>
+			{% for r in result %}
+			<tr>
+			<td>{{r["Group"]}}</td>
+			<td>{{r["Username"]}}</td>
+			<td>{{r["Email"]}}</td>
+			<td>{{r["Firstname"]}}</td>
+			<td>{{r["Lastname"]}}</td>
+			<td>{{r["Phone"]}}</td>
+			<td>{{r["Gender"]}}</td>
+			<td><a href="edit/{{r.id}}">Edit</a></td>
+			<td>
+				<form action="{{url_for('delete',id = r.id)}}" method = "post">
+				<input type ="hidden" name="_method" value="DELETE">
+				<input type="submit" value="Delete" >
+			</td>
+			
+			</tr>
+			{% endfor %}
+	
+	</body>
+</html>

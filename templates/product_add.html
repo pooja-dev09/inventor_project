@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Flask App</title>
+		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	</head>
+	<body>
+		<div id="header">
+		<div id="logo">
+				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+		</div>
+	</div>
+<div id="leftbar">
+			<ul id="menu-v">
+			<h3>User</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View User</a>
+			</li>
+			
+			<h3>Category</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/category_view">View User</a>
+			</li>
+				<h3>Brand</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+			</li>
+			<h3>Company</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/company_view">View Company</a>
+			</li>
+			<h3>Product</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+			</li>
+			<h3>order</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/order_add">Add order</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/order_view">View order</a>
+			</li>
+		</ul>
+	</div>
+	<div id="rightbar">
+		<h2>Manage Users</h2>
+		
+		<div class="box">
+			<form action= "http://127.0.0.1:5000/product_add" method= "POST" enctype=multipart/form-data>
+			<label><b>Image</b></label><br>
+			<input type="file" name="inputfile"><br><br>
+			
+			<label><b>Product name</b></label><br>
+			<input type="text" placeholder="Enter product name" name="product_name" class="welcome"required><br><br>
+
+			<label><b>SKU</b></label><br>
+			<input type="text" placeholder="Enter SKU" name="sku" class="welcome"required><br><br>
+
+			<label><b>Price</b></label><br>
+			<input type="text" placeholder="Enter price" name="price" class="welcome"required><br><br>
+
+			<label><b>Qty</b></label><br>
+			<input type="text" placeholder="Enter Qty" name="qty" class="welcome"required><br><br>
+
+			<label><b>Description</b></label><br>
+			<textarea rows= "4" cols="30" name="description" class="welcome">Enter description
+			</textarea><br><br>
+			
+			<label><b>Brands</b></label><br>
+			<input type="text" name="brands" class="welcome"required><br><br>
+
+			<label><b>Category</b></label><br>
+			<input type="text" name="category" class="welcome"required><br><br>
+			
+			<label><b>Store</b></label><br>
+			<input type="text" name="store" class="welcome"required><br><br>
+			
+			<label><b>Availability</b></label><br>
+			<input type="text" name="availability" class="welcome"required><br><br>
+
+			<button type="submit" value="submit">Save Changes</button>
+
+			</form>
+		</div>
+		
+		
+	</body>
+</html>

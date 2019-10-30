@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Flask App</title>
+		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	</head>
+	<body>
+		<div id="header">
+		<div id="logo">
+				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+		</div>
+	</div>
+	<div id="leftbar">
+			<ul id="menu-v">
+			<h3>User</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+			</li>
+			
+			<li>
+				<a href="http://127.0.0.1:5000/view">View User</a>
+			</li>
+			<h3>Category</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Category</a>
+			</li>
+				<h3>Brand</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Brand</a>
+			</li>
+			<h3>Company</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Company</a>
+			</li>
+			<h3>Product</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+			</li>
+			</li>
+			<h3>Order</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/order_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/order_view">View Company</a>
+			</li>
+		</ul>
+	</div>
+	<div id="rightbar">
+		<h2>Order Edit</h2>
+		<form action="http://127.0.0.1:5000/order_update" method= "POST">
+		<div class="box">
+		<dl>
+
+		<p>
+			<input name="customer_name" value= "{{row[0]['CustomerName']}}" type="text"  placeholder="Enter Customer Name" class ="welcome" required>
+		</p>
+		<p>
+			<input name="customer_address" value= "{{row[0]['CustomerAddress']}}" type="text" placeholder="Enter customer address"  class ="welcome"  required>
+		</p>
+		<p>
+			<input name="customer_phone" value= "{{row[0]['CustomerPhone']}}" type="text" placeholder="Enter customer phone" class ="welcome" required>
+		</p>
+		<p>
+			<input name="product" value= "{{row[0]['Product']}}" type="password" placeholder="product" class ="welcome" required>
+		</p>
+		<p>
+			<input name="qty" value= "{{row[0]['Qty']}}" type="text" placeholder="Firstname" class="qty" required>
+		</p>
+		<p>
+			<input name="rate" value= "{{row[0]['Rate']}}" type="text" placeholder="Lastname" class="rate"required>
+		</p>
+		<p>
+			<input name="amount" value= "{{row[0]['Amount']}}" type="text" placeholder="amount" class="welcome"required>
+		</p>
+		<p>
+			<input name="gross_amount" value= "{{row[0]['GrossAmount']}}" type="text" placeholder="gross_amount" class="welcome" required>
+		</p>
+		<p>
+			<input name="s_charge" value= "{{row[0]['SCharge']}}" type="text" placeholder="s_charge" class="welcome" required>
+		</p>
+		<p>
+			<input name="vat" value= "{{row[0]['Vat']}}" type="text" placeholder="vat" class="welcome" required>
+		</p>
+		<p>
+			<input name="discount" value= "{{row[0]['Discount']}}" type="text" placeholder="discount" class="welcome" required>
+		</p>
+		<p>
+			<input name="net_amount" value= "{{row[0]['NetAmount']}}" type="text" placeholder="net_amount" class="welcome" required>
+		</p>
+    </dl>
+    <p>
+		<input name="id" value="{{ row[0]['id'] }}" type="hidden">
+		<input type="submit" value="Submit">
+	</p>
+		</div>
+		</form>
+		
+	
+	</body>
+</html>

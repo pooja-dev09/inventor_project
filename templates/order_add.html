@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Flask App</title>
+		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	</head>
+	<body>
+		<div id="header">
+		<div id="logo">
+				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+		</div>
+	</div>
+<div id="leftbar">
+			<ul id="menu-v">
+			<h3>User</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View User</a>
+			</li>
+			
+			<h3>Category</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/category_view">View User</a>
+			</li>
+				<h3>Brand</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+			</li>
+			<h3>Company</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/company_view">View Company</a>
+			</li>
+			<h3>Products</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+			</li>
+			<h3>Order</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/order_add">Add order</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/order_view">View order</a>
+			</li>
+			
+		</ul>
+	</div>
+	<div id="rightbar">
+		<h2>Manage Order</h2>
+		
+		<div class="box">
+			<form action="http://127.0.0.1:5000/order_add" class="form-container" method="POST">
+			<label>Customer Name</label><br><br>
+			<input type="text" placeholder="Enter Customer Name" class="new" name="customer_name" required><br><br>
+			<label>Customer Address</label><br><br>
+			<input type="text" placeholder="Enter Customer Address" class="new" name="customer_address" required><br><br>
+			<label>Customer Phone</label><br><br>
+			<input type="text" placeholder="Enter Customer Phone" class="new" name="customer_phone" required><br><br>
+			<table class="order_table">
+			<tr>
+			<th>Product</th>
+			<th>Qty</th>
+			<th>Rate</th>
+			<th>Amount</th>
+			</tr>
+			<tbody id="items">
+			<tr>
+			<td><input type="text" name="product[]" required></td>
+			<td><input type="text" name="qty[]" required></td>
+			<td><input type="text" name="rate[]" required></td>
+			<td><input type="text" name="amount[]" required></td>
+			<td><input type="button" value="add entry" id="add" class="new"><br></br></td>
+			</tr>
+			</tbody>
+			
+			</table>
+	
+			<label>Gross Amount</label><br><br>
+			<input type="text" name="gross_amount" class="new" required><br><br>
+			<label>S-Charge 13%</label><br><br>
+			<input type="text" name="s_charge" class="new" required><br><br>
+			<label>Vat 10%</label><br><br>
+			<input type="text" name="vat"class="new" required><br><br>
+			<label>Discount</label><br><br>
+			<input type="text" name="discount" class="new"required><br><br>
+			<label>Net Amount</label><br><br>
+			<input type="text" name="net_amount" class="new" required><br><br>
+			
+			<button type="submit" value="submit" class="new" class="btn">Create Order</button>
+			</form>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script>
+		$(document).ready(function(){
+				$("#add").click(function(e){
+				event.preventDefault()
+				$("#items").append('<tr><td><input type="text" class="new" name="product[]" required></td><td><input type="text" name="qty[]" class="new" required></td><td><input type="text" name="rate[]" class="new" required></td><td><input type="text" name="amount[]" class="new" required></td><td><input type="button" value="delete" class="new bttn"/></td></tr>')
+				$(".bttn").click(function(e){
+					$(this).closest("tr").remove();
+					
+				});
+				});
+				
+				});
+		</script>
+	</body>
+</html>

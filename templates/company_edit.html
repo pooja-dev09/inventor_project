@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<title>Flask App</title>
+		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	</head>
+	<body>
+		<div id="header">
+		<div id="logo">
+				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+		</div>
+	</div>
+	<div id="leftbar">
+			<ul id="menu-v">
+			<h3>User</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+			</li>
+			
+			<li>
+				<a href="http://127.0.0.1:5000/view">View User</a>
+			</li>
+			<h3>Category</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Category</a>
+			</li>
+				<h3>Brand</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Brand</a>
+			</li>
+			<h3>Company</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/view">View Company</a>
+			</li>
+			<h3>Product</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+			</li>
+			<h3>order</h3>
+			<li>
+				<a href="http://127.0.0.1:5000/order_add">Add order</a>
+			</li>
+			<li>
+				<a href="http://127.0.0.1:5000/order_view">View order</a>
+			</li>
+		</ul>
+	</div>
+	<div id="rightbar">
+		<h2>Company Edit</h2>
+		<form method="post" action="http://127.0.0.1:5000/company_update">
+    <dl>
+
+		<p>
+			<input name="Company_name" value= "{{row[0]['CompanyName']}}" type="text"  placeholder="CompanyName" class="welcome"  required>
+		</p>
+		<p>
+			<input name="charge_amount" value= "{{row[0]['ChargeAmount']}}" type="text" placeholder="ChargeAmount" class="welcome" required>
+		</p>
+		<p>
+			<input name="vat_charge" value= "{{row[0]['VatCharge']}}" type="text"  placeholder="VatCharge" class="welcome" required>
+		</p>
+		<p>
+			<input name="address" value= "{{row[0]['Address']}}" type="text" placeholder="Address"  class="welcome" required>
+		</p>
+		<p>
+			<input name="phone" value= "{{row[0]['phone']}}" type="text"  placeholder="phone" class="welcome" required>
+		</p>
+		<p>
+			<input name="country" value= "{{row[0]['Country']}}" type="text" placeholder="Country" class="welcome"required>
+		</p>
+		<p>
+			<input name="message" value= "{{row[0]['Message']}}" type="text"  placeholder="Message" class="welcome" required>
+		</p>
+		<p>
+			<input name="currency" value= "{{row[0]['Currency']}}" type="text" placeholder="Currency" class="welcome" required>
+		</p>
+		
+    </dl>
+    <p>
+		<input name="id" value="{{ row[0]['id'] }}" type="hidden">
+		<input type="submit" value="Submit">
+	</p>
+
+</form>
+		
+	
+	</body>
+</html>
