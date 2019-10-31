@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, url_for, redirect
 from array import array
 app = Flask(__name__)
 import os
-
+import ast
 from werkzeug.utils import secure_filename
-UPLOAD_FOLDER = './static/upload'
+UPLOAD_FOLDER = './static/upload/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 import mysql.connector
@@ -46,7 +46,6 @@ def welcome():
 @app.route('/view')
 def view():
 	new = []
-	print(new)
 	mycursor.execute("SELECT * FROM adduser")
 	row=mycursor.fetchall()
 	for i in row:
@@ -67,10 +66,7 @@ def view():
 @app.route('/edit/<string:id>')
 def edit(id):
 	row = []
-	print('kljjofjjfvij')
-	print('kdnkckln')
 	mycursor.execute("SELECT * FROM adduser WHERE id= %s",[id])
-	print('kjhcuihi')
 	new = mycursor.fetchall()
 	print(new)
 	for j in new:
@@ -176,7 +172,7 @@ def category_delete(id):
 	mycursor.execute("DELETE FROM addcategory WHERE id=%s",[id])
 	mydb.commit()
 	print('Deleted Successfully')
-	return redirect(url_for('home'))
+	return redirect(url_for('category_view'))
 	
 
 #------BRAND---------------#
@@ -237,7 +233,7 @@ def brand_delete(id):
 	mycursor.execute("DELETE FROM addbrand WHERE id=%s",[id])
 	mydb.commit()
 	print('Deleted Successfully')
-	return redirect(url_for('home'))
+	return redirect(url_for('brand_view'))
 #-------------------------Company---------------------------#
 @app.route('/company_add',methods=['GET','POST'])
 def company_add():
@@ -320,7 +316,7 @@ def company_delete(id):
 	mycursor.execute("DELETE FROM addcompany WHERE id=%s",[id])
 	mydb.commit()
 	print('Deleted Successfully')
-	return redirect(url_for('home'))
+	return redirect(url_for('company_view'))
 #---------------product-----------#
 def allowed_file(filename):
     return '.' in filename and \
@@ -418,7 +414,7 @@ def product_delete(id):
 	mycursor.execute("DELETE FROM addproduct WHERE id=%s",[id])
 	mydb.commit()
 	print('Deleted Successfully')
-	return redirect(url_for('home'))
+	return redirect(url_for('product_view'))
 #-------------------order-------------#
 @app.route('/order_add',methods=['GET','POST'])
 def order_add():
@@ -435,20 +431,16 @@ def order_add():
 		Vat = str(request.form.get('vat'))
 		Discount = str(request.form.get('discount'))
 		NetAmount = str(request.form.get('net_amount'))
-		print(type(Product))
 		
-		s=list(Product.split(" "))
-		print(s)
-		print(type(s))
-		l = len(s)
-		print(l)
-		for i in range(l):
+		Product = ast.literal_eval(Product)
+		Qty = ast.literal_eval(Qty)
+		Rate = ast.literal_eval(Rate)
+		Amount = ast.literal_eval(Amount)
+		for i in range(len(Product)):
 			sql = "INSERT INTO addorder (CustomerName,CustomerAddress,CustomerPhone,Product,Qty,Rate,Amount,GrossAmount,SCharge,Vat,Discount,NetAmount) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-			val=(CustomerName,CustomerAddress,CustomerPhone,Product,Qty,Rate,Amount,GrossAmount,SCharge,Vat,Discount,NetAmount)
+			val=(CustomerName,CustomerAddress,CustomerPhone,Product[i],Qty[i],Rate[i],Amount[i],GrossAmount,SCharge,Vat,Discount,NetAmount)
 			result = mycursor.execute(sql,val)
 			mydb.commit()
-			
-			
 		return  redirect(url_for('order_view'))
 	else:
 		return render_template('order_add.html')

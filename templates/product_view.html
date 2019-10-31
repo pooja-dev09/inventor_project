@@ -84,7 +84,7 @@
 			{% for r in results %}
 			<tr>
 			<td>{{r["ProductName"]}}</td>
-			<td><img src="{{ r["file"]}}"></img></td>
+			<td><img src="./static/upload/{{ r["file"]}}" width="100" height="100"></img></td>
 			<td>{{r["Sku"]}}</td>
 			<td>{{r["Price"]}}</td>
 			<td>{{r["Qty"]}}</td>
