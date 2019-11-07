@@ -158,11 +158,12 @@ input[type="submit"]{
 	margin:0 0 5px;
 	padding:10px;
 	font-size:15px;
+	width: 100%;
 }
 
 input[type="button"]{
 	cursor:pointer;
-	width:100%;
+	width: 100%;
 	border:none;
 	background:#0CF;
 	color:#FFF;
@@ -247,7 +248,7 @@ input[type="button"]{
   padding: 15px;
   margin: 5px 0 22px 0;
   border: none;
-  background: #f1f1f1;
+  
 }
 
 /* When the inputs get focus, do something */
@@ -290,4 +291,10 @@ input[type="button"]{
 .order_table tr td input{
 	border: 1px solid #a2a2a2 !important;
 	
+}
+/*------------profile---------------*/
+.table_profile tr th  {
+    background: transparent;
+    color: #000;
+	border: 1px solid #a2a2a2 !important;
 }

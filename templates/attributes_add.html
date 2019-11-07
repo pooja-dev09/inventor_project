@@ -3,6 +3,7 @@
 	<head>
 		<title>Flask App</title>
 		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+		
 	</head>
 	<body>
 		<div id="header">
@@ -13,7 +14,7 @@
 	</div>
 	<div id="leftbar">
 			<ul id="menu-v">
-			<h3>User</h3>
+			<h3>Buy Bin Cutloss Kra</h3>
 			<li>
 				<a href="/welcome">Add User</a>
 			</li>
@@ -26,7 +27,7 @@
 				<a href="/category_add">Add Category</a>
 			</li>
 			<li>
-				<a href="/category_view">View Category</a>
+				<a href="/category_view">View User</a>
 			</li>
 				<h3>Brand</h3>
 			<li>
@@ -42,12 +43,12 @@
 			<li>
 				<a href="/company_view">View Company</a>
 			</li>
-			<h3>Products</h3>
+			<h3>Product</h3>
 			<li>
-				<a href="/product_add">Add Products</a>
+				<a href="/product_add">Add Company</a>
 			</li>
 			<li>
-				<a href="/product_view">View Products</a>
+				<a href="/product_view">View Company</a>
 			</li>
 			<h3>order</h3>
 			<li>
@@ -55,6 +56,13 @@
 			</li>
 			<li>
 				<a href="/order_view">View order</a>
+			</li>
+			<h3>order</h3>
+			<li>
+				<a href="/store_add">Add order</a>
+			</li>
+			<li>
+				<a href="/store_view">View order</a>
 			</li>
 			<h3>Store</h3>
 			<li>
@@ -79,49 +87,43 @@
 			<li>
 				<a href="/setting">Setting</a>
 			</li>
-			</li>
 		</ul>
 	</div>
 	<div id="rightbar">
-		<h2>Product Edit</h2>
-		<form method="post" action="/product_update">
-    <dl>
+		<h3>Add Attribute</h3>
+		<div class="box">
+			<button class="open-button" onclick="openForm()">Add Attribute</button>
 
-		<p>
-			<input name="product_name" value= "{{row[0]['ProductName']}}" type="text"  placeholder="Enter Product Name" class="welcome"  required>
-		</p>
-		<p>
-			<input name="sku" value= "{{row[0]['Sku']}}" type="text" placeholder="Enter Sku" class="welcome" required>
-		</p>
-		<p>
-			<input name="price" value= "{{row[0]['Price']}}" type="text"  placeholder="Enter Price" class="welcome" required>
-		</p>
-		<p>
-			<input name="qty" value= "{{row[0]['Qty']}}" type="text" placeholder="Enter Qty" class="welcome" required>
-		</p>
-		<p>
-			<input name="description" value= "{{row[0]['Description']}}" type="text"  placeholder="Enter description" class="welcome" required>
-		</p>
-		<p>
-			<input name="brands" value= "{{row[0]['Brands']}}" type="text"  class="welcome"required>
-		</p>
-		<p>
-			<input name="category" value= "{{row[0]['Category']}}" type="text"   class="welcome" required>
-		</p>
-		<p>
-			<input name="store" value= "{{row[0]['Store']}}" type="text"  class="welcome" required>
-		</p>
-		<p>
-			<input name="availability" value= "{{row[0]['Availability']}}" type="text" placeholder="Yes" class="welcome" required>
-		</p>
-    </dl>
-    <p>
-		<input name="id" value="{{ row[0]['id'] }}" type="hidden">
-		<input type="submit" class="classing"value="Submit">
-	</p>
+		<div class="form-popup" id="myForm">
+		  <form action="/attributes_add" class="form-container" method="POST">
+			<h3>Add Attribute</h3>
 
-</form>
-		
+			<label for="category_name">Attribute Name</label>
+			<input type="text" placeholder="Enter Store Name" name="attributes_name" required>
+			
+			<label>Status</label>
+			<select id="status"  name= "status">
+			  <option value="Active" >Active</option>
+			  <option value="Inactive" >Inactive</option>
+			</select>
+			
+			
+
+			<button type="submit" value="submit" class="btn">Save Changes</button>
+			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+		  </form>
+		</div>
+		</div>
 	
+		<script>
+	function openForm() {
+	  document.getElementById("myForm").style.display = "block";
+	}
+
+	function closeForm() {
+	  document.getElementById("myForm").style.display = "none";
+	}
+	</script>
+
 	</body>
-</html>
+	</html>

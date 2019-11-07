@@ -3,66 +3,103 @@
 	<head>
 		<title>Flask App</title>
 		<link rel="stylesheet" href= "{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen"/>
+	
+	
+		
 	</head>
+	<style type="text/css">
+		@media print {
+			.printbtn {
+				display :  none;
+			}
+		}
+	</style>
+	
+	
+	
 	<body>
 		<div id="header">
-		<div id="logo">
-				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
-				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+			<div id="logo">
+					<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
+					<a href="/login" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+			</div>
 		</div>
-	</div>
 	<div id="leftbar">
 			<ul id="menu-v">
 			<h3>User</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+				<a href="/welcome">Add User</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/view">Add User</a>
+				<a href="/view">View User</a>
 			</li>
 			
 			<h3>Category</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+				<a href="/category_add">Add Category</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/view">View Category</a>
+				<a href="/category_view">View Category</a>
 			</li>
 				<h3>Brand</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+				<a href="/brand_add">Add Brand</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/view">View Brand</a>
+				<a href="/brand_view">View Brand</a>
 			</li>
 			<h3>Company</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+				<a href="/company_add">Add Company</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/company_view">View Company</a>
+				<a href="/company_view">View Company</a>
 			</li>
-			<h3>Product</h3>
+			<h3>Products</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+				<a href="/product_add">Add Products</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+				<a href="/product_view">View Products</a>
 			</li>
 			<h3>order</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/order_add">Add order</a>
+				<a href="/order_add">Add order</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/order_view">View order</a>
+				<a href="/order_view">View order</a>
+			</li>
+			<h3>Store</h3>
+			<li>
+				<a href="/store_add">Add Store</a>
+			</li>
+			<li>
+				<a href="/store_view">View Store</a>
+			</li>
+			
+			<h3>Attributes</h3>
+			<li>
+				<a href="/attributes_add">Add Attributes</a>
+			</li>
+			<li>
+				<a href="/attributes_view">View Attributes</a>
+			</li>
+			<h3>Profile</h3>
+			<li>
+				<a href="/profile">View Profile</a>
+			</li>
+			<h3>Setting</h3>
+			<li>
+				<a href="/setting">Setting</a>
 			</li>
 			
 		</ul>
 	</div>
 	<div id="rightbar">
 		<h2>Product Users</h2>
-	
+		<div id="div_print">
 			<table id= "records_table" class = "table" border = "1">
+			
 			
 			<tr>
 				
@@ -76,8 +113,8 @@
 				<th>Category</th>
 				<th>Store</th>
 				<th>Availability</th>
-				<th>Operation</th>
-				<th>Operation</th>
+				<th class = "printbtn">Operation</th>
+				<th class = "printbtn">Operation</th>
 
             </tr>
 			
@@ -93,15 +130,34 @@
 			<td>{{r["Category"]}}</td>
 			<td>{{r["Store"]}}</td>
 			<td>{{r["Availability"]}}</td>
-			<td><a href="product_edit/{{r.id}}">Edit</a></td>
-			<td>
+			<td class="printbtn"><a href="product_edit/{{r.id}}">Edit</a></td>
+		</div>	
+			<td id="notprint1">
 				<form action="{{url_for('product_delete',id = r.id)}}" method = "post">
 				<input type ="hidden" name="_method" value="DELETE">
-				<input type="submit" value="Delete" >
+				<input type="submit"  value="Delete" >
+				<input name="b_print" type="button" class = "printbtn" onClick="printdiv('div_print')" value=" Print ">
 			</td>
 			
 			</tr>
 			{% endfor %}	
 </table>
+</div>
+</body>
+			<script language="javascript">
+			function printdiv(printpage)
+			{
+			var headstr = "<html><head><title></title></head><body>";
+			var footstr = "</body>";
+			var newstr = document.all.item(printpage).innerHTML;
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = headstr+newstr+footstr;
+			window.print();
+			document.body.innerHTML = oldstr;
+			return false;
+			}
+			</script>
+  
 
+</body>
 </html>

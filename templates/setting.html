@@ -58,10 +58,10 @@
 			</li>
 			<h3>Store</h3>
 			<li>
-				<a href="/store_add">Add order</a>
+				<a href="/store_add">Add Store</a>
 			</li>
 			<li>
-				<a href="/store_view">View order</a>
+				<a href="/store_view">View Store</a>
 			</li>
 			
 			<h3>Attributes</h3>
@@ -79,48 +79,46 @@
 			<li>
 				<a href="/setting">Setting</a>
 			</li>
-			</li>
 		</ul>
 	</div>
 	<div id="rightbar">
-		<h2>Product Edit</h2>
-		<form method="post" action="/product_update">
-    <dl>
+		<h2>User Setting</h2>
+		<form action="/update" method= "POST">
+		<div class="box">
+		<dl>
 
 		<p>
-			<input name="product_name" value= "{{row[0]['ProductName']}}" type="text"  placeholder="Enter Product Name" class="welcome"  required>
+			<input name="group" value= "{{row[0]['Group']}}" type="text"  placeholder="" class ="welcome" required>
+		</p>
+		
+		<p>
+			<input name="email" value= "{{row[0]['Email']}}" type="text" placeholder="Email" class ="welcome" required>
 		</p>
 		<p>
-			<input name="sku" value= "{{row[0]['Sku']}}" type="text" placeholder="Enter Sku" class="welcome" required>
+			<input name="password" value= "{{row[0]['Password']}}" type="password" placeholder="Password" class ="welcome" required>
 		</p>
 		<p>
-			<input name="price" value= "{{row[0]['Price']}}" type="text"  placeholder="Enter Price" class="welcome" required>
+			<input name="fname" value= "{{row[0]['Firstname']}}" type="text" placeholder="Firstname" class="welcome" required>
 		</p>
 		<p>
-			<input name="qty" value= "{{row[0]['Qty']}}" type="text" placeholder="Enter Qty" class="welcome" required>
+			<input name="lname" value= "{{row[0]['Lastname']}}" type="text" placeholder="Lastname" class="welcome"required>
 		</p>
 		<p>
-			<input name="description" value= "{{row[0]['Description']}}" type="text"  placeholder="Enter description" class="welcome" required>
+			<input name="phone" value= "{{row[0]['Phone']}}" type="text" placeholder="Phone" class="welcome"required>
 		</p>
 		<p>
-			<input name="brands" value= "{{row[0]['Brands']}}" type="text"  class="welcome"required>
+			<input name="gender" value= "{{row[0]['Gender']}}" type="text" placeholder="Gender" class="welcome" required>
 		</p>
 		<p>
-			<input name="category" value= "{{row[0]['Category']}}" type="text"   class="welcome" required>
-		</p>
-		<p>
-			<input name="store" value= "{{row[0]['Store']}}" type="text"  class="welcome" required>
-		</p>
-		<p>
-			<input name="availability" value= "{{row[0]['Availability']}}" type="text" placeholder="Yes" class="welcome" required>
+			<input name="gender" value= "{{row[0]['Password']}}" type="text" placeholder="Gender" class="welcome" required>
 		</p>
     </dl>
     <p>
 		<input name="id" value="{{ row[0]['id'] }}" type="hidden">
-		<input type="submit" class="classing"value="Submit">
+		<input type="submit" value="Submit">
 	</p>
-
-</form>
+		</div>
+		</form>
 		
 	
 	</body>

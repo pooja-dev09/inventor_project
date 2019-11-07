@@ -8,7 +8,7 @@
 		<div id="header">
 		<div id="logo">
 				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
-				<a href="/login" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
 		</div>
 	</div>
 	<div id="leftbar">
@@ -18,7 +18,7 @@
 				<a href="/welcome">Add User</a>
 			</li>
 			<li>
-				<a href="/view">Add User</a>
+				<a href="/view">View User</a>
 			</li>
 			
 			<h3>Category</h3>
@@ -33,7 +33,7 @@
 				<a href="/brand_add">Add Brand</a>
 			</li>
 			<li>
-				<a href="/view">View Brand</a>
+				<a href="/brand_view">View Brand</a>
 			</li>
 			<h3>Company</h3>
 			<li>
@@ -42,12 +42,12 @@
 			<li>
 				<a href="/company_view">View Company</a>
 			</li>
-			<h3>Product</h3>
+			<h3>Products</h3>
 			<li>
-				<a href="/product_add">Add Product</a>
+				<a href="/product_add">Add Products</a>
 			</li>
 			<li>
-				<a href="/product_view">View Product</a>
+				<a href="/product_view">View Products</a>
 			</li>
 			<h3>order</h3>
 			<li>
@@ -63,6 +63,14 @@
 			<li>
 				<a href="/store_view">View Store</a>
 			</li>
+			
+			<h3>Attributes</h3>
+			<li>
+				<a href="/attributes_add">Add Attributes</a>
+			</li>
+			<li>
+				<a href="/attributes_view">View Attributes</a>
+			</li>
 			<h3>Profile</h3>
 			<li>
 				<a href="/profile">View Profile</a>
@@ -71,47 +79,45 @@
 			<li>
 				<a href="/setting">Setting</a>
 			</li>
-			
 		</ul>
 	</div>
 	<div id="rightbar">
-		<h2>Manage Users</h2>
-	
-			<table id= "records_table" class = "table" border = "1">
+		<h2>User Profile</h2>
+			<table id= "records_table" class = "table_profile" border = "1">
+
 			
+			{% for r in result %}	
 			<tr>
-				
-				<th>Company Name</th>
-                <th>Charge Amount</th>
-                <th>Vat Charge</th>
-				<th>Address</th>
-				<th>phone</th>
-				<th>Country</th>
-				<th>Message</th>
-				<th>Currency</th>
-				<th>Operation</th>
-				<th>Operation</th>
+				<th><b>Group</b></th>
+				<td>{{r["Group"]}}</td></br>
+			</tr>
+			<tr>
+                <th><b>Username</b></th>
+				<td>{{r["Username"]}}</td>
+			</tr>
+			<tr>
+                <th><b>Email</b></th>
+				<td>{{r["Email"]}}</td>
+			</tr>
+			<tr>
+                <th><b>Firstname</b></th>
+				<td>{{r["Firstname"]}}</td>
+			</tr>
+			<tr>
+				<th><b>Lastname</b></th>
+				<td>{{r["Lastname"]}}</td>
+			</tr>
+			<tr>
+				<th><b>Phone</b></th>
+				<td>{{r["Phone"]}}</td>
+			</tr>
+			<tr>
+				<th><b>Gender</b></th>
+				<td>{{r["Gender"]}}</td>
 
             </tr>
-			{% for r in results %}
-			<tr>
-			<td>{{r["CompanyName"]}}</td>
-			<td>{{r["ChargeAmount"]}}</td>
-			<td>{{r["VatCharge"]}}</td>
-			<td>{{r["Address"]}}</td>
-			<td>{{r["phone"]}}</td>
-			<td>{{r["Country"]}}</td>
-			<td>{{r["Message"]}}</td>
-			<td>{{r["Currency"]}}</td>
-			<td><a href="company_edit/{{r.id}}">Edit</a></td>
-			<td>
-				<form action="{{url_for('company_delete',id = r.id)}}" method = "post">
-				<input type ="hidden" name="_method" value="DELETE">
-				<input type="submit" value="Delete" >
-			</td>
-			
-			</tr>
-			{% endfor %}	
-</table>
-
+	
+			{% endfor %}
+	
+	</body>
 </html>

@@ -1,8 +1,16 @@
+from flask import *
 from flask import Flask, render_template, request, url_for, redirect
-from array import array
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm 
+from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField
+from wtforms import StringField, PasswordField, BooleanField
+from wtforms.validators import InputRequired, Email, Length
+from flask_bootstrap import Bootstrap
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Thisissupposedtobesecret!'
 import os
-import ast
+import ast  
+bootstrap = Bootstrap(app)
 from werkzeug.utils import secure_filename
 UPLOAD_FOLDER = './static/upload/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -145,8 +153,6 @@ def category_edit(id):
 	row = []
 	mycursor.execute("SELECT * FROM addcategory WHERE id= %s",[id])
 	new = mycursor.fetchall()
-	print('dfghjk')
-	print(new)
 	for j in new:
 		id = j[0]
 		CategoryName = j[1]
@@ -305,6 +311,7 @@ def company_update():
 		Country = str(request.form.get('country'))
 		Message = str(request.form.get('message'))
 		Currency = str(request.form.get('currency'))
+		id = str(request.form.get('id'))
 		mycursor.execute("UPDATE addcompany SET CompanyName= '"+str(Company_name)+"',ChargeAmount = '"+str(Charge_amount)+"',VatCharge ='"+str(Vat_charge)+"',Address = '"+str(Address)+"',phone = '"+str(Phone)+"',Country = '"+str(Country)+"',Message = '"+str(Message)+"',Currency = '"+str(Currency)+"' WHERE id = '"+str(id)+"'")
 		mydb.commit()
 		return redirect(url_for('home'))
@@ -386,6 +393,8 @@ def product_edit(id):
 		Category = i[8]
 		Store = i[9]
 		Availability = i[10]
+		print(ProductName)
+		print(Sku)
 		data = {'id':id,'ProductName':ProductName,'file':file,'Sku':Sku,'Price':Price,'Qty':Qty,'Description':Description,'Brands':Brands,'Category':Category,'Store':Store,'Availability':Availability}
 		row.append(data)
 	return render_template('product_edit.html', row = row)
@@ -404,10 +413,14 @@ def product_update():
 		Category = str(request.form.get('category'))
 		Store = str(request.form.get('store'))
 		Availability = str(request.form.get('availability'))
-		
-		mycursor.execute("UPDATE addproduct SET ProductName= '"+str(Product_name)+"',file= '"+str(file)+"',Sku = '"+str(Sku)+"',Price ='"+str(Price)+"',Qty = '"+str(Qty)+"',Description = '"+str(Description)+"',Brands = '"+str(Brands)+"',Category = '"+str(Category)+"',Store = '"+str(Store)+"',Availability = '"+str(Availability)+"' WHERE id = '"+str(id)+"'")
+		id = str(request.form.get('id'))
+		query = ("UPDATE addproduct SET ProductName= '"+str(Product_name)+"',Sku = '"+str(Sku)+"',Price ='"+str(Price)+"',Qty = '"+str(Qty)+"',Description = '"+str(Description)+"',Brands = '"+str(Brands)+"',Category = '"+str(Category)+"',Store = '"+str(Store)+"',Availability = '"+str(Availability)+"' WHERE id = '"+str(id)+"'")
+		mycursor.execute(query)
+		print(query)
+		print(mycursor.rowcount, "record(s) affected")
 		mydb.commit()
-		return redirect(url_for('home'))
+		print('djbvijv')
+		return redirect(url_for('product_view'))
 	
 @app.route('/product_delete/<string:id>' ,methods =['POST'])
 def product_delete(id):
@@ -415,9 +428,13 @@ def product_delete(id):
 	mydb.commit()
 	print('Deleted Successfully')
 	return redirect(url_for('product_view'))
+	
+	
+
 #-------------------order-------------#
 @app.route('/order_add',methods=['GET','POST'])
 def order_add():
+
 	if (request.method == 'POST'):
 		CustomerName = str(request.form.get('customer_name'))
 		CustomerAddress = str(request.form.get('customer_address'))
@@ -441,10 +458,38 @@ def order_add():
 			val=(CustomerName,CustomerAddress,CustomerPhone,Product[i],Qty[i],Rate[i],Amount[i],GrossAmount,SCharge,Vat,Discount,NetAmount)
 			result = mycursor.execute(sql,val)
 			mydb.commit()
-		return  redirect(url_for('order_view'))
-	else:
-		return render_template('order_add.html')
 		
+		return  redirect(url_for('order_view',new = new))
+	else:
+		
+		# all = []
+		# product = request.form.get('product')
+		# print(product)
+		# mycursor.execute("SELECT ProductName,Price FROM addproduct")
+		# rowcursor=mycursor.fetchall()
+		# print(rowcursor)
+		# for i in rowcursor:
+			# ProductName = i[0]
+			# Price = i[1]
+			# data = {'ProductName':ProductName,'Price':Price}
+			# all.append(data)
+			
+		return render_template('order_add.html')
+
+@app.route('/autocomplete', methods=['GET'])
+def autocomplete():
+	results = []
+	search = request.args.get('q')
+	mycursor.execute("SELECT * from addproduct WHERE ProductName like '%"+search+"%' ")
+	rowcursor=mycursor.fetchall()
+	for i in rowcursor:
+		ProductName = i[1]
+		Price = i[4]
+		data = {'value':ProductName,'data':Price}
+		results.append(data)
+	return jsonify(matching_results=results)
+
+
 		
 @app.route('/order_view',methods=['GET','POST'])
 def order_view():
@@ -465,8 +510,7 @@ def order_view():
 		Vat = i[10]
 		Discount = i[11]
 		NetAmount = i[12]
-		print(CustomerName)
-		print(CustomerAddress)
+		
 		data = {'id':id,'CustomerName':CustomerName,'CustomerAddress':CustomerAddress,'CustomerPhone':CustomerPhone,'Product':Product,'Qty':Qty,'Rate':Rate,'Amount':Amount,'GrossAmount':GrossAmount,'SCharge':SCharge,'Vat':Vat,'Discount':Discount,'NetAmount':NetAmount}
 		all.append(data)
 	return render_template('order_view.html', results = all) 
@@ -509,7 +553,7 @@ def order_update():
 		Vat = str(request.form.get('vat'))
 		Discount = str(request.form.get('discount'))
 		NetAmount = str(request.form.get('net_amount'))
-		
+		id = str(request.form.get('id'))
 		mycursor.execute("UPDATE addorder SET CustomerName = '"+str(CustomerName)+"',CustomerAddress = '"+str(CustomerAddress)+"',CustomerPhone ='"+str(CustomerPhone)+"',Product = '"+str(Product)+"',Qty = '"+str(Qty)+"',Rate = '"+str(Rate)+"',Amount = '"+str(Amount)+"',GrossAmount = '"+str(GrossAmount)+"',SCharge = '"+str(SCharge)+"',Vat ='"+str(Vat)+"',Discount ='"+str(Discount)+"',NetAmount ='"+str(NetAmount)+"' WHERE id = '"+str(id)+"'")
 		
 		mydb.commit()
@@ -522,17 +566,233 @@ def order_delete(id):
 	print('Deleted Successfully')
 	return redirect(url_for('order_view'))
 #---------------end order---------------------------#	
-@app.route('/login',methods=['GET','POST'])
+#----------------start store-------------------------#
+@app.route('/store_add',methods=['GET','POST'])
+def store_add():
+	if (request.method == 'POST'):
+		Store_name = str(request.form.get('store_name'))
+		Status = str(request.form.get('status'))
+		sql = "INSERT INTO addstore (StoreName,Status) VALUES (%s,%s)"
+		val = (Store_name,Status)
+		result = mycursor.execute(sql,val)
+		mydb.commit()
+		return  redirect(url_for('store_view'))
+	else:
+		return render_template('store_add.html')
+		
+		
+@app.route('/store_view')		
+def store_view():
+	all = []
+	mycursor.execute("SELECT * FROM addstore")
+	rowcursor=mycursor.fetchall()
+	for i in rowcursor:
+		id = i[0]
+		StoreName = i[1]
+		Status = i[2]
+		data = {'id':id,'StoreName':StoreName,'Status':Status}
+		all.append(data)
+	return render_template('store_view.html', results = all) 
+	
+@app.route('/store_edit/<string:id>')
+def store_edit(id):
+	row = []
+	mycursor.execute("SELECT * FROM addstore WHERE id= %s",[id])
+	new = mycursor.fetchall()
+	for j in new:
+		id = j[0]
+		StoreName = j[1]
+		Status = j[2]
+		data = {'StoreName':StoreName,'Status':Status,'id':id,}
+		row.append(data)
+	return render_template('store_edit.html', row = row)
+
+@app.route('/store_update',methods=['POST'])
+def store_update():
+	if (request.method == 'POST'):
+		StoreName = str(request.form.get('store_name'))
+		Status = str(request.form.get('status'))
+		id = str(request.form.get('id'))
+		mycursor.execute("UPDATE addstore SET StoreName = '"+str(StoreName)+"',Status = '"+str(Status)+"' WHERE id = '"+str(id)+"'")
+		mydb.commit()
+		return redirect(url_for('home'))
+	
+
+	
+@app.route('/store_delete/<string:id>' ,methods =['POST'])
+def store_delete(id):
+	mycursor.execute("DELETE FROM addstore WHERE id=%s",[id])
+	mydb.commit()
+	print('Deleted Successfully')
+	return redirect(url_for('store_view'))
+
+#-----------------order end------------------#
+#------------------attributes start------------------#
+@app.route('/attributes_add',methods=['GET','POST'])
+def attributes_add():
+	if (request.method == 'POST'):
+		Attributes_name = str(request.form.get('attributes_name'))
+		Status = str(request.form.get('status'))
+		sql = "INSERT INTO addattributes(AttributeName,Status) VALUES (%s,%s)"
+		val = (Attributes_name,Status)
+		result = mycursor.execute(sql,val)
+		mydb.commit()
+		return  redirect(url_for('attributes_view'))
+	else:
+		return render_template('attributes_add.html')
+		
+		
+@app.route('/attributes_view')		
+def attributes_view():
+	all = []
+	mycursor.execute("SELECT * FROM addattributes")
+	rowcursor=mycursor.fetchall()
+	for i in rowcursor:
+		id = i[0]
+		AttributeName = i[1]
+		Status = i[2]
+		data = {'id':id,'AttributeName':AttributeName,'Status':Status}
+		all.append(data)
+	return render_template('attributes_view.html', results = all) 
+	
+@app.route('/attributes_edit/<string:id>')
+def attributes_edit(id):
+	row = []
+	mycursor.execute("SELECT * FROM addattributes WHERE id= %s",[id])
+	new = mycursor.fetchall()
+	for j in new:
+		id = j[0]
+		AttributeName = j[1]
+		Status = j[2]
+		data = {'AttributeName':AttributeName,'Status':Status,'id':id,}
+		row.append(data)
+	return render_template('attributes_edit.html', row = row)
+
+@app.route('/attributes_update',methods=['POST'])
+def attributes_update():
+	if (request.method == 'POST'):
+		AttributeName = str(request.form.get('attributes_name'))
+		Status = str(request.form.get('status'))
+		id = str(request.form.get('id'))
+		mycursor.execute("UPDATE addattributes SET AttributeName = '"+str(AttributeName)+"',Status = '"+str(Status)+"' WHERE id = '"+str(id)+"'")
+		mydb.commit()
+		return redirect(url_for('home'))
+	
+
+	
+@app.route('/attributes_delete/<string:id>' ,methods =['POST'])
+def attributes_delete(id):
+	mycursor.execute("DELETE FROM addattributes WHERE id=%s",[id])
+	mydb.commit()
+	print('Deleted Successfully')
+	return redirect(url_for('attributes_view'))
+	
+#----------------------login-------------------------------------------------------#
+class LoginForm(FlaskForm):
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    remember = BooleanField('remember me')	
+	
+class RegisterForm(FlaskForm):
+	email = StringField('email',validators=[InputRequired(),Email(message='Invalid email'),Length(max=50)])
+	username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+	password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+	cpassword = PasswordField('cpassword', validators=[InputRequired(), Length(min=8, max=80)])
+	firstname = PasswordField('firstname', validators=[InputRequired(), Length(min=5, max=80)])
+	lastname  = PasswordField('lastname', validators=[InputRequired(), Length(min=5, max=80)])
+	phone = StringField('phone', validators=[InputRequired(), Length(min=8, max=80)])
+	gender = RadioField('gender', choices = [('M','Male'),('F','Female')])
+	
+	
+@app.route('/login',methods=['GET', 'POST'])
 def login():
-	error = None
-	if request.method == 'POST':
-		if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-			error = 'Invalid Credentials. Please try again.'
-		else:
+	form = LoginForm()
+	if form.validate_on_submit():
+		passwordf = form.password.data
+		Username = form.username.data
+		mycursor.execute("SELECT * from adduser WHERE Username = '%s' AND Password = '%s'" % (Username, passwordf))
+		rowcursor=mycursor.fetchall()
+		print(rowcursor)
+		for i in rowcursor:
+			email = i[3]
+			print(email)
+		length =len(rowcursor)
+		if length > 0:
+			session['email']=email
 			return redirect(url_for('home'))
-	return render_template('login.html', error=error)
 	
-	
+		else:
+			return'<h3>Invalid Username or Password </h3>'
+
+	return render_template('login.html', form=form)
+@app.route('/profile', methods = ['GET','POST'])
+def profile():
+	new = []
+	if 'email' in session:  
+		s = session['email'];  
+		mycursor.execute("SELECT * from adduser  WHERE Email = '%s'" % s)
+		rowcursor=mycursor.fetchall()
+		print(rowcursor)
+		for i in rowcursor:
+			id = i[0]
+			Group = i[1]
+			Username = i[2]
+			Email = i[3]
+			Firstname = i[5]	
+			Lastname = i[6]
+			Phone = i[7]
+			Gender = i[8]
+			print(new)
+			data = {'id':id,'Group':Group,'Username':Username,'Email':Email,'Firstname':Firstname,'Lastname':Lastname,'Phone':Phone,'Gender':Gender}
+			new.append(data)
+			
+			
+		return render_template('profile.html',result = new) 
+	else:
+		return redirect(url_for('home'))
+@app.route('/setting', methods = ['GET','POST'])
+def setting():
+	row = []
+	if 'email' in session:  
+		s = session['email'];  
+		mycursor.execute("SELECT * from adduser  WHERE Email = '%s'" % s)
+		rowcursor=mycursor.fetchall()
+		for i in rowcursor:
+			id = i[0]
+			Group = i[1]
+			Username = i[2]
+			Email = i[3]
+			Password = i[4]
+			Firstname = i[5]	
+			Lastname = i[6]
+			Phone = i[7]
+			Gender = i[8]
+			data = {'id':id,'Group':Group,'Email':Email,'Firstname':Firstname,'Lastname':Lastname,'Password':Password,'Phone':Phone,'Gender':Gender}
+			row.append(data)
+		return render_template('setting.html', row = row)
+
+
+@app.route('/sinup',methods=['GET', 'POST'])
+def sinup():
+	form = RegisterForm()
+	if form.validate_on_submit():
+		username = form.username.data
+		email = form.email.data
+		password  = form.password.data
+		cpassword = form.cpassword.data
+		firstname = form.firstname.data
+		lastname = form.lastname.data
+		phone = form.phone.data
+		gender = form.gender.data
+		if (password == cpassword):
+		
+			sql = "INSERT INTO adduser (Username,Email,Password,FirstName,LastName,Phone,Gender) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+			val = (username,email,password,firstname,lastname,phone,gender)
+			result = mycursor.execute(sql,val)
+			mydb.commit()
+
+		return redirect(url_for('login'))
+	return render_template('sinup.html',form=form)
 	
 if __name__ == '__main__':
 	app.run(port='5000',host='0.0.0.0',debug=True)

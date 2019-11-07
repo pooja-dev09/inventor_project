@@ -17,9 +17,6 @@
 			<li>
 				<a href="/welcome">Add User</a>
 			</li>
-			<li>
-				<a href="/view">Add User</a>
-			</li>
 			
 			<h3>Category</h3>
 			<li>
@@ -33,7 +30,7 @@
 				<a href="/brand_add">Add Brand</a>
 			</li>
 			<li>
-				<a href="/view">View Brand</a>
+				<a href="/brand_view">View Brand</a>
 			</li>
 			<h3>Company</h3>
 			<li>
@@ -44,10 +41,10 @@
 			</li>
 			<h3>Product</h3>
 			<li>
-				<a href="/product_add">Add Product</a>
+				<a href="/product_add">Add Company</a>
 			</li>
 			<li>
-				<a href="/product_view">View Product</a>
+				<a href="/product_view">View Company</a>
 			</li>
 			<h3>order</h3>
 			<li>
@@ -58,10 +55,17 @@
 			</li>
 			<h3>Store</h3>
 			<li>
-				<a href="/store_add">Add Store</a>
+				<a href="/store_add">Add order</a>
 			</li>
 			<li>
-				<a href="/store_view">View Store</a>
+				<a href="/store_view">View order</a>
+			</li>
+			<h3>Attributes</h3>
+			<li>
+				<a href="/attributes_add">Add Attributes</a>
+			</li>
+			<li>
+				<a href="/attributes_view">View Attributes</a>
 			</li>
 			<h3>Profile</h3>
 			<li>
@@ -71,47 +75,33 @@
 			<li>
 				<a href="/setting">Setting</a>
 			</li>
-			
 		</ul>
 	</div>
 	<div id="rightbar">
-		<h2>Manage Users</h2>
+		<h2>Manage Attribute</h2>
 	
 			<table id= "records_table" class = "table" border = "1">
-			
 			<tr>
 				
-				<th>Company Name</th>
-                <th>Charge Amount</th>
-                <th>Vat Charge</th>
-				<th>Address</th>
-				<th>phone</th>
-				<th>Country</th>
-				<th>Message</th>
-				<th>Currency</th>
-				<th>Operation</th>
-				<th>Operation</th>
-
+				<th>Attribute Name</th>
+                <th>Status</th>
+                <th>Action</th>
+				<th>Action</th>
+			
             </tr>
 			{% for r in results %}
 			<tr>
-			<td>{{r["CompanyName"]}}</td>
-			<td>{{r["ChargeAmount"]}}</td>
-			<td>{{r["VatCharge"]}}</td>
-			<td>{{r["Address"]}}</td>
-			<td>{{r["phone"]}}</td>
-			<td>{{r["Country"]}}</td>
-			<td>{{r["Message"]}}</td>
-			<td>{{r["Currency"]}}</td>
-			<td><a href="company_edit/{{r.id}}">Edit</a></td>
+			<td>{{r["AttributeName"]}}</td>
+			<td>{{r["Status"]}}</td>
+			<td><a href="attributes_edit/{{r.id}}">Edit</a></td>
 			<td>
-				<form action="{{url_for('company_delete',id = r.id)}}" method = "post">
+				<form action="{{url_for('attributes_delete',id = r.id)}}" method = "post">
 				<input type ="hidden" name="_method" value="DELETE">
 				<input type="submit" value="Delete" >
 			</td>
 			
 			</tr>
 			{% endfor %}	
-</table>
-
+	</table>
+	</body>
 </html>

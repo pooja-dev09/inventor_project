@@ -8,59 +8,82 @@
 		<div id="header">
 		<div id="logo">
 				<img src="{{url_for('static',filename='images/logo.png') }}" height="45"/>
-				<a href="index.php" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
+				<a href="/login" style="position:absolute; text-decoration:none; color:#fff; top:20px; right:20px;"><i class="fa fa-sign-out"></i> Logout</a>
 		</div>
 	</div>
 	<div id="leftbar">
 			<ul id="menu-v">
 			<h3>User</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/welcome">Add User</a>
+				<a href="/welcome">Add User</a>
+			</li>
+			<li>
+				<a href="/view">View User</a>
 			</li>
 			
-			<li>
-				<a href="http://127.0.0.1:5000/view">View User</a>
-			</li>
 			<h3>Category</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/category_add">Add Category</a>
+				<a href="/category_add">Add Category</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/category_view">View Category</a>
+				<a href="/category_view">View Category</a>
 			</li>
 				<h3>Brand</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/brand_add">Add Brand</a>
+				<a href="/brand_add">Add Brand</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/brand_view">View Brand</a>
+				<a href="/brand_view">View Brand</a>
 			</li>
 			<h3>Company</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/company_add">Add Company</a>
+				<a href="/company_add">Add Company</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/company_view">View Company</a>
+				<a href="/company_view">View Company</a>
 			</li>
-			<h3>Product</h3>
+			<h3>Products</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/product_add">Add Company</a>
+				<a href="/product_add">Add Products</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/product_view">View Company</a>
+				<a href="/product_view">View Products</a>
 			</li>
 			<h3>order</h3>
 			<li>
-				<a href="http://127.0.0.1:5000/order_add">Add order</a>
+				<a href="/order_add">Add order</a>
 			</li>
 			<li>
-				<a href="http://127.0.0.1:5000/order_view">View order</a>
+				<a href="/order_view">View order</a>
+			</li>
+			<h3>Store</h3>
+			<li>
+				<a href="/store_add">Add order</a>
+			</li>
+			<li>
+				<a href="/store_view">View order</a>
+			</li>
+			
+			<h3>Attributes</h3>
+			<li>
+				<a href="/attributes_add">Add Attributes</a>
+			</li>
+			<li>
+				<a href="/attributes_view">View Attributes</a>
+			</li>
+			<h3>Profile</h3>
+			<li>
+				<a href="/profile">View Profile</a>
+			</li>
+			<h3>Setting</h3>
+			<li>
+				<a href="/setting">Setting</a>
 			</li>
 		</ul>
 	</div>
 	<div id="rightbar">
 		<h2>Brand Edit</h2>
-		<form method="post" action="http://127.0.0.1:5000/brand_update">
+		<form method="post" action="/brand_update">
     <dl>
 
 	
