@@ -97,9 +97,10 @@
         text-align: left;
     }
     </style>
+	<script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
 </head>
 
-<body>
+<body onload=window.print();>
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
@@ -107,13 +108,13 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
+                               <img src="{{url_for('static',filename='images/logo.png') }}" style="width:60%; max-width:100px;">
                             </td>
                             
                             <td>
-                                Invoice #: 123<br>
-                                Created: January 1, 2015<br>
-                                Due: February 1, 2015
+								Invoice #:{{generate[0]['Invoice']}}<br>	
+                                Created: {{generate[0]['OnDate']}}<br>
+                                
                             </td>
                         </tr>
                     </table>
@@ -131,9 +132,9 @@
                             </td>
                             
                             <td>
-                                Acme Corp.<br>
-                                John Doe<br>
-                                john@example.com
+                                {{generate[0]['CustomerName']}}<br>
+								{{generate[0]['CustomerAddress']}}<br>
+								{{generate[0]['CustomerPhone']}}
                             </td>
                         </tr>
                     </table>
@@ -152,11 +153,11 @@
             
             <tr class="details">
                 <td>
-                    Check
+                    Cash
                 </td>
                 
                 <td>
-                    1000
+                    {{generate[0]['NetAmount']}}
                 </td>
             </tr>
             
@@ -169,34 +170,45 @@
                     Price
                 </td>
             </tr>
-            
+            {%for i in order_detail%}
+            <tr class="item">
+			
+                <td>
+                     {{i['Product']}}<br>
+	
+                </td>
+				<td>
+				{{i['Amount']}}
+				</td>
+                
+            </tr>
+            {% endfor %}
             <tr class="item">
                 <td>
-                    Website design
+                    S-charge 13%
                 </td>
                 
                 <td>
-                    $300.00
+                     {{generate[0]['SCharge']}}
                 </td>
             </tr>
             
-            <tr class="item">
+            <tr class="item ">
                 <td>
-                    Hosting (3 months)
+                    Vat%
                 </td>
                 
                 <td>
-                    $75.00
+                    {{generate[0]['Vat']}}
                 </td>
             </tr>
-            
-            <tr class="item last">
+			<tr class="item last">
                 <td>
-                    Domain name (1 year)
+                    Discount%
                 </td>
                 
                 <td>
-                    $10.00
+                    {{generate[0]['Discount']}}
                 </td>
             </tr>
             
@@ -204,10 +216,12 @@
                 <td></td>
                 
                 <td>
-                   Total: $385.00
+                    {{generate[0]['NetAmount']}}
                 </td>
             </tr>
         </table>
     </div>
+	
+	
 </body>
 </html>

@@ -94,32 +94,27 @@
 			</tr>
 			<tbody id="items">
 			<tr>
-			
-
-			<!-- <input name="autocomplete" type="text" id="autocomplete" class="form-control input-lg"/> -->
 
 			<td><input type="text" name="product[]" id="product" class="product" required></td>
-			<td><input type="text" name="qty[]" id = "qty"  value="0" class="qty" onblur="blurFunction($(this))"required></td>
-			<td>
-			 <input type="text" name="rate[]" id="rate" class="rate" disabled required>
-			</td>
-			<td><input type="text" name="amount[]" id="amt" class="amt" disabled required></td>
+			<td><input type="text" name="qty[]" id = "qty" class="qty" onblur="blurFunction($(this))"required></td>
+			<td><input type="text" name="rate[]" id="rate" class="rate"  required></td>
+			<td><input type="text" name="amount[]" id="amt" class="amt" onblur="blurFunction($(obj))" required></td>
 			<td><input type="button" value="add entry" id="add" class="new"><br></br></td>
 			</tr>
 			</tbody>
 			
 			</table>
 			<label>Gross Amount</label><br><br>
-			<input type="text" name="gross_amount" class="new" required><br><br>
+			<input type="text" name="gross_amount" id="gross" class="new gross" required><br><br>
 			<label>S-Charge 13%</label><br><br>
-			<input type="text" name="s_charge" class="new" required><br><br>
+			<input type="text" name="s_charge" class="new scharge" required><br><br>
 			<label>Vat 10%</label><br><br>
-			<input type="text" name="vat"class="new" required><br><br>
+			<input type="text" name="vat"class="new vat" required><br><br>
 			<label>Discount</label><br><br>
-			<input type="text" name="discount" class="new"required><br><br>
+			<input type="text" name="discount" id ="discount" class="new discount"required><br><br>
 			<label>Net Amount</label><br><br>
-			<input type="text" name="net_amount" class="new" required><br><br>
-			
+			<input type="text" name="net_amount" id="netamount" class="new netamount" required><br><br>
+			<div id="hg"></div>
 			<button type="submit" value="submit" class="new" class="btn">Create Order</button>
 			</form>
 		</div>
@@ -184,13 +179,30 @@ $(function() {
 })
 </script>
 <script>
+var totalgrossamt = 0;
 function blurFunction(obj) {
 var total = obj.parent().parent().find('.qty').val()*obj.parent().parent().find('.rate').val();
-
 obj.parent().parent().find('.amt').val(total);
-
+totalgrossamt= parseFloat(totalgrossamt) + parseFloat(total);
+$(".gross").val(totalgrossamt);
+//var scharge
+var scharge = totalgrossamt+(totalgrossamt*0.013);
+$(".scharge").val(scharge);
+//var vat
+var vat = parseFloat(scharge+(scharge*0.01));
+$(".vat").val(vat);
+$("#discount").on("input", function(e) {
+vvv=vat*(parseFloat($(e.target).val())/100);
+mul=(vat-vvv);
+ $("#netamount").val( mul );
+});
 }
+
+
+
 </script>
+
+
 
 
 </html>

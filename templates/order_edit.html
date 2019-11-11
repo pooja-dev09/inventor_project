@@ -72,6 +72,9 @@
 		<form action="/order_update" method= "POST">
 		<div class="box">
 		<dl>
+		<p>
+			<input name="Invoiceid" value= "{{row[0]['Invoiceid']}}" type="text"  placeholder="Enter Invoiceid" class ="welcome" required>
+		</p>
 
 		<p>
 			<input name="customer_name" value= "{{row[0]['CustomerName']}}" type="text"  placeholder="Enter Customer Name" class ="welcome" required>
@@ -81,18 +84,6 @@
 		</p>
 		<p>
 			<input name="customer_phone" value= "{{row[0]['CustomerPhone']}}" type="text" placeholder="Enter customer phone" class ="welcome" required>
-		</p>
-		<p>
-			<input name="product" value= "{{row[0]['Product']}}" type="password" placeholder="product" class ="welcome" required>
-		</p>
-		<p>
-			<input name="qty" value= "{{row[0]['Qty']}}" type="text" placeholder="Firstname" class="welcome" required>
-		</p>
-		<p>
-			<input name="rate" value= "{{row[0]['Rate']}}" type="text" placeholder="Lastname" class="welcome"required>
-		</p>
-		<p>
-			<input name="amount" value= "{{row[0]['Amount']}}" type="text" placeholder="amount" class="welcome"required>
 		</p>
 		<p>
 			<input name="gross_amount" value= "{{row[0]['GrossAmount']}}" type="text" placeholder="gross_amount" class="welcome" required>

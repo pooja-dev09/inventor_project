@@ -9,7 +9,7 @@
 	</head>
 	<style type="text/css">
 		@media print {
-			.printbtn {
+			.noprintbtn {
 				display :  none;
 			}
 		}
@@ -113,8 +113,8 @@
 				<th>Category</th>
 				<th>Store</th>
 				<th>Availability</th>
-				<th class = "printbtn">Operation</th>
-				<th class = "printbtn">Operation</th>
+				<th class = "noprintbtn">Operation</th>
+				<th class = "noprintbtn">Operation</th>
 
             </tr>
 			
@@ -130,13 +130,13 @@
 			<td>{{r["Category"]}}</td>
 			<td>{{r["Store"]}}</td>
 			<td>{{r["Availability"]}}</td>
-			<td class="printbtn"><a href="product_edit/{{r.id}}">Edit</a></td>
+			<td class="noprintbtn"><a href="product_edit/{{r.id}}">Edit</a></td>
 		</div>	
-			<td id="notprint1">
+			<td>
 				<form action="{{url_for('product_delete',id = r.id)}}" method = "post">
-				<input type ="hidden" name="_method" value="DELETE">
-				<input type="submit"  value="Delete" >
-				<input name="b_print" type="button" class = "printbtn" onClick="printdiv('div_print')" value=" Print ">
+				<input type ="hidden"  name="_method" value="DELETE">
+				<input type="submit"  class = "noprintbtn" value="Delete" >
+				<input name="b_print" type="button" class = "noprintbtn" onClick="printdiv('div_print')" value=" Print ">
 			</td>
 			
 			</tr>

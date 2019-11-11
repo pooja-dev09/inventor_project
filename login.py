@@ -1,4 +1,5 @@
 from flask import *
+import random
 from flask import Flask, render_template, request, url_for, redirect
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm 
@@ -419,7 +420,6 @@ def product_update():
 		print(query)
 		print(mycursor.rowcount, "record(s) affected")
 		mydb.commit()
-		print('djbvijv')
 		return redirect(url_for('product_view'))
 	
 @app.route('/product_delete/<string:id>' ,methods =['POST'])
@@ -449,32 +449,59 @@ def order_add():
 		Discount = str(request.form.get('discount'))
 		NetAmount = str(request.form.get('net_amount'))
 		
-		Product = ast.literal_eval(Product)
-		Qty = ast.literal_eval(Qty)
-		Rate = ast.literal_eval(Rate)
-		Amount = ast.literal_eval(Amount)
-		for i in range(len(Product)):
-			sql = "INSERT INTO addorder (CustomerName,CustomerAddress,CustomerPhone,Product,Qty,Rate,Amount,GrossAmount,SCharge,Vat,Discount,NetAmount) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-			val=(CustomerName,CustomerAddress,CustomerPhone,Product[i],Qty[i],Rate[i],Amount[i],GrossAmount,SCharge,Vat,Discount,NetAmount)
+		Products = ast.literal_eval(Product)
+		Qtys = ast.literal_eval(Qty)
+		Rates = ast.literal_eval(Rate)
+		Amounts = ast.literal_eval(Amount)
+		Invoiceid = (random.randint(123,571)*1)
+		sql = "INSERT INTO addorder (slno,CustomerName,CustomerAddress,CustomerPhone,GrossAmount,SCharge,Vat,Discount,NetAmount) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+		val=(Invoiceid,CustomerName,CustomerAddress,CustomerPhone,GrossAmount,SCharge,Vat,Discount,NetAmount)
+		result = mycursor.execute(sql,val)
+		mydb.commit()
+		
+		foreignid = mycursor.lastrowid
+		
+		for i in range(len(Products)):
+			sql = "INSERT INTO order_detail (Slno,Product,Qty,Rate,Amount) VALUES (%s,%s,%s,%s,%s)"
+			val=(foreignid,Products[i],Qtys[i],Rates[i],Amounts[i])
 			result = mycursor.execute(sql,val)
-			mydb.commit()
+			mydb.commit()	
 		
-		return  redirect(url_for('order_view',new = new))
-	else:
 		
-		# all = []
-		# product = request.form.get('product')
-		# print(product)
-		# mycursor.execute("SELECT ProductName,Price FROM addproduct")
-		# rowcursor=mycursor.fetchall()
-		# print(rowcursor)
-		# for i in rowcursor:
-			# ProductName = i[0]
-			# Price = i[1]
-			# data = {'ProductName':ProductName,'Price':Price}
-			# all.append(data)
-			
+		return  redirect(url_for('order_view'))
+	else:	
 		return render_template('order_add.html')
+		
+@app.route('/generated/<string:id>')
+def generated(id):
+	generate = []
+	order_detail = []
+	mycursor.execute("SELECT * FROM addorder WHERE id=%s",[id])
+	rowcursor=mycursor.fetchall()
+	for i in rowcursor:
+		id = i[0]
+		Invoice = i[1]
+		CustomerName = i[2]
+		CustomerAddress = i[3]
+		CustomerPhone = i[4]
+		GrossAmount = i[5]
+		SCharge = i[6]
+		Vat = i[7]
+		Discount = i[8]
+		NetAmount = i[9]
+		OnDate = i[10]
+		data = {'Invoice':Invoice,'CustomerName':CustomerName,'CustomerAddress':CustomerAddress,'CustomerPhone':CustomerPhone,'GrossAmount':GrossAmount,'SCharge':SCharge,'Vat':Vat,'Discount':Discount,'NetAmount':NetAmount,'OnDate':OnDate}
+		generate.append(data)
+		mycursor.execute("SELECT * from order_detail  WHERE  Slno =%s",[id])
+		result=mycursor.fetchall()
+		print(result)
+		for j in result:
+			Product = j[2]
+			Amount = j[5]
+			newdata = {'Product':Product,'Amount':Amount}
+			order_detail.append(newdata)
+			print(order_detail)
+		return render_template('generated.html', generate = generate , order_detail = order_detail)
 
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
@@ -498,20 +525,17 @@ def order_view():
 	rowcursor=mycursor.fetchall()
 	for i in rowcursor:
 		id = i[0]
-		CustomerName = i[1]
-		CustomerAddress = i[2]
-		CustomerPhone = i[3]
-		Product = i[4]
-		Qty = i[5]
-		Rate = i[6]
-		Amount = i[7]
-		GrossAmount = i[8]
-		SCharge = i[9]
-		Vat = i[10]
-		Discount = i[11]
-		NetAmount = i[12]
+		Invoiceid = i[1]
+		CustomerName = i[2]
+		CustomerAddress = i[3]
+		CustomerPhone = i[4]
+		GrossAmount = i[5]
+		SCharge = i[6]
+		Vat = i[7]
+		Discount = i[8]
+		NetAmount = i[9]
 		
-		data = {'id':id,'CustomerName':CustomerName,'CustomerAddress':CustomerAddress,'CustomerPhone':CustomerPhone,'Product':Product,'Qty':Qty,'Rate':Rate,'Amount':Amount,'GrossAmount':GrossAmount,'SCharge':SCharge,'Vat':Vat,'Discount':Discount,'NetAmount':NetAmount}
+		data = {'id':id,'Invoiceid':Invoiceid,'CustomerName':CustomerName,'CustomerAddress':CustomerAddress,'CustomerPhone':CustomerPhone,'GrossAmount':GrossAmount,'SCharge':SCharge,'Vat':Vat,'Discount':Discount,'NetAmount':NetAmount}
 		all.append(data)
 	return render_template('order_view.html', results = all) 
 
@@ -522,47 +546,43 @@ def order_edit(id):
 	new = mycursor.fetchall()
 	for i in new:
 		id = i[0]
-		CustomerName = i[1]
-		CustomerAddress = i[2]
-		CustomerPhone = i[3]
-		Product = i[4]
-		Qty = i[5]
-		Rate = i[6]
-		Amount = i[7]
-		GrossAmount = i[8]
-		SCharge = i[9]
-		Vat = i[10]
-		Discount = i[11]
-		NetAmount = i[12]
-		data = {'id':id,'CustomerName':CustomerName,'CustomerAddress':CustomerAddress,'CustomerPhone':CustomerPhone,'Product':Product,'Qty':Qty,'Rate':Rate,'Amount':Amount,'GrossAmount':GrossAmount,'SCharge':SCharge,'Vat':Vat,'Discount':Discount,'NetAmount':NetAmount}
+		Invoiceid = i[1]
+		CustomerName = i[2]
+		CustomerAddress = i[3]
+		CustomerPhone = i[4]
+		GrossAmount = i[5]
+		SCharge = i[6]
+		Vat = i[7]
+		Discount = i[8]
+		NetAmount = i[9]
+		data = {'id':id,'Invoiceid':Invoiceid,'CustomerName':CustomerName,'CustomerAddress':CustomerAddress,'CustomerPhone':CustomerPhone,'GrossAmount':GrossAmount,'SCharge':SCharge,'Vat':Vat,'Discount':Discount,'NetAmount':NetAmount}
 		row.append(data)
 	return render_template('order_edit.html', row = row)
 	
 @app.route('/order_update',methods=['POST'])
 def order_update():
 	if (request.method == 'POST'):
+		Invoiceid = str(request.form.get('Invoiceid'))
+		print(Invoiceid)
 		CustomerName = str(request.form.get('customer_name'))
+		print(CustomerName)
 		CustomerAddress = str(request.form.get('customer_address'))
 		CustomerPhone = str(request.form.get('customer_phone'))
-		Product = str(request.form.get('product'))
-		Qty = str(request.form.get('qty'))
-		Rate = str(request.form.get('rate'))
-		Amount = str(request.form.get('amount'))
 		GrossAmount = str(request.form.get('gross_amount'))
 		SCharge = str(request.form.get('s_charge'))
 		Vat = str(request.form.get('vat'))
 		Discount = str(request.form.get('discount'))
 		NetAmount = str(request.form.get('net_amount'))
 		id = str(request.form.get('id'))
-		mycursor.execute("UPDATE addorder SET CustomerName = '"+str(CustomerName)+"',CustomerAddress = '"+str(CustomerAddress)+"',CustomerPhone ='"+str(CustomerPhone)+"',Product = '"+str(Product)+"',Qty = '"+str(Qty)+"',Rate = '"+str(Rate)+"',Amount = '"+str(Amount)+"',GrossAmount = '"+str(GrossAmount)+"',SCharge = '"+str(SCharge)+"',Vat ='"+str(Vat)+"',Discount ='"+str(Discount)+"',NetAmount ='"+str(NetAmount)+"' WHERE id = '"+str(id)+"'")
-		
+		mycursor.execute("UPDATE addorder SET slno='"+str(Invoiceid)+"',CustomerName = '"+str(CustomerName)+"',CustomerAddress = '"+str(CustomerAddress)+"',CustomerPhone ='"+str(CustomerPhone)+"',GrossAmount = '"+str(GrossAmount)+"',SCharge = '"+str(SCharge)+"',Vat ='"+str(Vat)+"',Discount ='"+str(Discount)+"',NetAmount ='"+str(NetAmount)+"' WHERE id = '"+str(id)+"'")
 		mydb.commit()
-		return redirect(url_for('home'))
+		return redirect(url_for('order_view'))
 		
 @app.route('/order_delete/<string:id>' ,methods =['POST'])
 def order_delete(id):
 	mycursor.execute("DELETE FROM addorder WHERE id=%s",[id])
 	mydb.commit()
+	mycursor.execute("DELETE FROM order_detail WHERE Slno=%s",[id])
 	print('Deleted Successfully')
 	return redirect(url_for('order_view'))
 #---------------end order---------------------------#	
